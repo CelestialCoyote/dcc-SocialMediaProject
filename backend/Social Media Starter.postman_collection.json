@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "1d5ba0f8-4d45-4057-b090-c91d4d206b83",
+		"name": "Social Media Starter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST register a user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"JJ Vega\",\n    \"email\": \"jjvega@devcodecamp.com\",\n    \"password\": \"BillyBobWins\",\n    \"isAdmin\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST login existing user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"jjvega@devcodecamp.com\",\n    \"password\": \"BillyBobWins\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a user (if admin and authorized)",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWE3YzIyNTI3NDk3NDVhYzNjODc1OTkiLCJuYW1lIjoiRGF2aWQgTGFHcmFuZ2UiLCJlbWFpbCI6ImRhdmlkQGRldmNvZGVjYW1wLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzODM4NjI5M30.5MF1ulI8NtQTtJNfUeXKUKm7Z1S5BNu__lAIBX2zvTU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/users/61a7c0032749745ac3c87598",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"61a7c0032749745ac3c87598"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
