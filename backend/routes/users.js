@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                isAdmin: user.isAdmin,
+                isAdmin: user.isAdmin
             });
     } catch (ex) {
         return res.status(500).send(`Internal Server Error: ${ex}`);
@@ -112,6 +112,34 @@ router.put("/:userId", [auth], async (req, res) => {
             return res
                 .status(400)
                 .send(`User with ObjectId ${req.params.userId} does not exist.`);
+        
+        return res
+            .status(200)
+            .send(user);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
+
+// Put add friend user's friend array.
+router.put("/:userId/friends/:friendId", [auth], async (req, res) => {
+    try {
+        let friend = await User.findById(req.params.friendId);
+        if (!friend)
+            return res
+                .status(400)
+                .send(`Friend with ObjectId ${req.params.friendId} does not exist.`);
+
+        let user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
+        if (!user)
+            return res
+                .status(400)
+                .send(`User with ObjectId ${req.params.userId} does not exist.`);
+
+        user.friends.push(friend._id);
+        await user.save();
 
         return res
             .status(200)
