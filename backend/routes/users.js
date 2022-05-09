@@ -8,7 +8,7 @@ const express = require("express");
 const router = express.Router();
 
 
-//* POST register a new user
+// POST register a new user
 router.post("/register", async (req, res) => {
     try {
         const { error } = validateUser(req.body);
@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-// Get all users
+// GET all users.
 router.get("/", [auth], async (req, res) => {
     try {
         console.log(req.user);
@@ -77,7 +77,7 @@ router.get("/", [auth], async (req, res) => {
     }
 });
 
-// Get one user by ID
+// GET for a single user by ID.
 router.get("/:userId", [auth], async (req, res) => {
     try {
         let user = await User.findById(req.params.userId);
@@ -98,7 +98,7 @@ router.get("/:userId", [auth], async (req, res) => {
     }
 });
 
-// Put update user by ID
+// PUT to update user information by ID.
 router.put("/:userId", [auth], async (req, res) => {
     try {
         const { error } = validateUser(req.body);
@@ -123,22 +123,25 @@ router.put("/:userId", [auth], async (req, res) => {
     }
 });
 
-// Put add friend user's friend array.
-router.put("/:userId/friends/:friendId", [auth], async (req, res) => {
+// PUT to add a friend to a user's friends array.
+router.put("/:userId/friendsToAdd/:friendId", [auth], async (req, res) => {
     try {
-        let friend = await User.findById(req.params.friendId);
-        if (!friend)
+        let friendToAdd = await User.findById(req.params.friendId);
+        if (!friendToAdd)
             return res
                 .status(400)
                 .send(`Friend with ObjectId ${req.params.friendId} does not exist.`);
 
-        let user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
+        // TODO:
+        // Add check to see if friend ID is already in array.
+
+        let user = await User.findById(req.params.userId);
         if (!user)
             return res
                 .status(400)
                 .send(`User with ObjectId ${req.params.userId} does not exist.`);
 
-        user.friends.push(friend._id);
+        user.friends.push(friendToAdd._id);
         await user.save();
 
         return res
@@ -151,7 +154,36 @@ router.put("/:userId/friends/:friendId", [auth], async (req, res) => {
     }
 });
 
-// DELETE a single user from the database
+// PUT to remove a friend from a user's friends array.
+router.put("/:userId/friendsRemove/:friendId", [auth], async (req, res) => {
+    try {
+        let friendToRemove = await User.findById(req.params.friendId);
+        if (!friendToRemove)
+            return res
+                .status(400)
+                .send(`Friend with ObjectId ${req.params.friendId} does not exist.`);
+
+        let user = await User.findById(req.params.userId);
+        if (!user)
+            return res
+                .status(400)
+                .send(`User with ObjectId ${req.params.userId} does not exist.`);
+
+        const newArray = user.friends.filter(friend => friend != friendToRemove.id);
+        user.friends = newArray;
+        await user.save();
+
+        return res
+            .status(200)
+            .send(user);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
+
+// DELETE a single user from the database.
 router.delete("/:userId", [auth, admin], async (req, res) => {
     try {
         const user = await User.findById(req.params.userId);
@@ -159,10 +191,15 @@ router.delete("/:userId", [auth, admin], async (req, res) => {
             return res
                 .status(400)
                 .send(`User with id ${req.params.userId} does not exist!`);
-        await user.remove();
-        return res.send(user);
+        await user
+            .remove();
+        
+        return res
+            .send(user);
     } catch (ex) {
-        return res.status(500).send(`Internal Server Error: ${ex}`);
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${ex}`);
     }
 });
 
