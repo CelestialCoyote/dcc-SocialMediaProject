@@ -18,6 +18,7 @@ function validatePost(post) {
   const schema = Joi.object({
     userId: Joi.string().required(),
     text: Joi.string().min(2).max(2048).required(),
+    likes: Joi.number()
   });
   return schema.validate(post);
 }
