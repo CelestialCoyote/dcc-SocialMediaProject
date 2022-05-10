@@ -18,6 +18,9 @@ function App() {
   return (
     <div>
       <Navbar />
+      <img
+        src={`http://localhost:3011/uploads/images/73a392c0-d09f-11ec-b964-6769c85b7b3c.jpeg`}
+      />
       <Routes>
         <Route
           path="/"
