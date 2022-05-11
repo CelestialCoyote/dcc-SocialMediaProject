@@ -7,6 +7,7 @@ function auth(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
+    return res.status(1234).send(req.user);
     return next();
   } catch (ex) {
     return res.status(400).send("Invalid token.");
