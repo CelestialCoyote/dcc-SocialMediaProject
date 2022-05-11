@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
+const { postSchema } = require('../models/post');
+
 
 const userSchema = mongoose.Schema({
   name: {
@@ -33,6 +35,8 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "",
   },
+  posts:
+        [{ type: postSchema }]
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -42,7 +46,7 @@ userSchema.methods.generateAuthToken = function () {
       name: this.name,
       email: this.email,
       isAdmin: this.isAdmin,
-      image: this.image,
+      image: this.image
     },
     process.env.JWT_SECRET
   );
@@ -56,6 +60,7 @@ const validateUser = (user) => {
     isAdmin: Joi.bool().required(),
     friends: Joi.array(),
     image: Joi.string(),
+    posts: Joi.array(),
   });
   return schema.validate(user);
 };
@@ -69,6 +74,8 @@ const validateLogin = (req) => {
 };
 
 const User = mongoose.model("User", userSchema);
+
+
 module.exports.User = User;
 module.exports.userSchema = userSchema;
 module.exports.validateUser = validateUser;
