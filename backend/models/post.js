@@ -1,8 +1,7 @@
-// Imports
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-// Schema
+
 const postSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   text: { type: String, required: true, minlength: 2, maxlength: 2048 },
@@ -10,10 +9,6 @@ const postSchema = new mongoose.Schema({
   likes: { type: Number, default: 0 },
 });
 
-// Model
-const Post = mongoose.model("Post", postSchema);
-
-// Validation
 function validatePost(post) {
   const schema = Joi.object({
     userId: Joi.string().required(),
@@ -23,7 +18,9 @@ function validatePost(post) {
   return schema.validate(post);
 }
 
-// Exports
+const Post = mongoose.model("Post", postSchema);
+
+
 exports.postSchema = postSchema;
 exports.Post = Post;
 exports.validatePost = validatePost;
