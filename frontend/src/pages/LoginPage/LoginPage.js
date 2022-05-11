@@ -1,17 +1,16 @@
-import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
 import useCustomForm from "../../hooks/useCustomForm";
 import { Link } from "react-router-dom";
 import "./LoginPage.css";
 
+
 const LoginPage = () => {
     const { loginUser, isServerError } = useContext(AuthContext);
     const defaultValues = { email: "", password: "" };
     const [formData, handleInputChange, handleSubmit, reset] = useCustomForm(
         defaultValues,
-        loginUser,
-        handleUserLogin
+        loginUser
     );
 
     useEffect(() => {
@@ -19,17 +18,6 @@ const LoginPage = () => {
             reset();
         }
     }, [isServerError]);
-
-    async function handleUserLogin() {
-        try {
-            const jwt = localStorage.getItem('token');
-            const response = await axios
-                .post("http://localhost:3011/api/users/login", { headers: { Authorization: 'Bearer ' + jwt } });
-            console.log(response.data);
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
 
     return (
         <div className="container">
@@ -61,5 +49,6 @@ const LoginPage = () => {
         </div>
     );
 };
+
 
 export default LoginPage;

@@ -7,21 +7,29 @@ const { Post, validatePost } = require("../models/post");
 const auth = require("../middleware/auth");
 
 
-// GET all posts
-//router.get("/", [auth], async (req, res) => {
-//    try {
-//        let posts = await Post.find();
-//        if (!posts) return res.status(400).send(`No Posts in this collection!`);
-//
-//        return res
-//            .status(200)
-//            .send(posts);
-//    } catch (error) {
-//        return res
-//            .status(500)
-//            .send(`Internal Server Error: ${error}`);
-//    }
-//});
+ //GET all posts from friends
+router.get("/:userID/friendsPosts", [auth], async (req, res) => {
+    try {
+        let user = await User.findById(req.params.userID);
+        if (!user)
+            return res
+                .status(400)
+                .send(`User with id ${req.params.userID} does not exist!`);
+
+        let friends = await User.find({ _id: { $in: user.friends } });
+        let concatPosts = [];
+        let allPosts = friends.map(friend => {concatPosts = [...concatPosts, ...friend.posts]});
+        
+        return res
+            .status(200)
+            .send(concatPosts);
+
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
 
 // GET a single Post by userID and postID.
 router.get("/:userID/getSinglePost/:postID", [auth], async (req, res) => {
@@ -117,7 +125,8 @@ router.put("/:userID/updatePost/:postID", [auth], async (req, res) => {
                 .status(400)
                 .send(`Post with Objectid ${req.params.postID} does not exist.`);
         
-        user.posts.push(post);
+        post.text = req.body.text;
+        post.likes = req.body.likes;
         await user.save();
 
         return res
@@ -139,11 +148,9 @@ router.delete("/:userID/deletePost/:postID", [auth], async (req, res) => {
                 .status(400)
                 .send(`User with ObjectId ${req.params.userID} does not exist.`);
 
-        let post = user.posts.id(req.params.postID);
-        if (!post)
-            return res
-                .status(400)
-                .send(`Post with Objectid ${req.params.postID} does not exist.`);
+        user.posts.id(req.params.postID).remove();
+
+        await user.save();
 
         return res
             .status(200)

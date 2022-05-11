@@ -1,29 +1,15 @@
-import axios from "axios";
 import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import useCustomForm from "../../hooks/useCustomForm";
+
 
 const RegisterPage = () => {
     const { registerUser } = useContext(AuthContext);
     const defaultValues = { name: "", email: "", password: "", isAdmin: false };
     const [formData, handleInputChange, handleSubmit] = useCustomForm(
         defaultValues,
-        registerUser,
-        handleUserInfo
+        registerUser
     );
-
-    async function handleUserInfo() {
-        try {
-            let newUser = {};
-            await axios
-                .post("http://localhost:3011/api/users/register")
-                .then((res) => {
-                    newUser = res.data;
-                });
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
 
     return (
         <div className="container">

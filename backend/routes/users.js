@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
         if (error)
             return res
                 .status(400)
-                .send(error.details[0].message);
+                .send('val', error.details[0].message);
 
         let user = await User.findOne({ email: req.body.email });
         if (!user)
@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
         );
         if (!validPassword)
             return res
-                .status(400).send("Invalid email or password.");
+                .status(400).send("Invalid email or Password.");
 
         const token = user.generateAuthToken();
         return res

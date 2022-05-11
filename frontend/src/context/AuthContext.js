@@ -34,10 +34,14 @@ export const AuthProvider = ({ children }) => {
   const loginUser = async (loginData) => {
     try {
       let response = await axios.post(`${BASE_URL}/login`, loginData);
+      console.log(response)
       if (response.status === 200) {
         localStorage.setItem("token", JSON.stringify(response.data));
+        console.log('step 1');
         setUser(jwtDecode(response.data));
+        console.log('step 2');
         setIsServerError(false);
+        console.log('step 3');
         navigate("/");
       } else {
         navigate("/register");
