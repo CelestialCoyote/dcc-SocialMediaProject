@@ -22,7 +22,8 @@ const PostForm = (props) => {
                     formData,
                     {headers :{"x-auth-token": decodedUser}}
                     )
-                .then(res => console.log(res.data));
+                .then(res => props.setPosts(res.data));
+            reset()
         } catch (error) {
             console.log("fail from PostForm ",error);
         }

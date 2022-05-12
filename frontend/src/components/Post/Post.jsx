@@ -1,7 +1,17 @@
+import AuthContext from "../../context/AuthContext";
+import { useContext, useEffect } from "react";
 import './Post.css';
 
 
 const Post = (props) => {
+
+    const { user } = useContext(AuthContext);
+
+    useEffect(() => {
+        
+    }, [props.post]);
+
+
     return (
 
         <div id="postContainer">
@@ -16,7 +26,8 @@ const Post = (props) => {
                     <p>Likes: {props.post.likes}</p>
                 </div>
 
-                <button>Edit</button>
+                {user.posts && user.posts.map(post => Object.values(post).includes(props.post._id)?<button>Edit</button>:null)}
+
             </div>
 
         </div>
