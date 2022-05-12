@@ -26,7 +26,7 @@ const Post = (props) => {
                     <p>Likes: {props.post.likes}</p>
                 </div>
 
-                {user.posts && user.posts.map(post => Object.values(post).includes(props.post._id)?<button>Edit</button>:null)}
+                {user.posts && user.posts.map(post => Object.values(post).includes(props.post._id)?<button key={post._id}>Edit</button>:null)}
 
             </div>
 
