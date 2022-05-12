@@ -34,14 +34,14 @@ router.post("/register", fileUpload.single("image"), async (req, res) => {
         });
         await user.save();
 
-        const token = user.generateAuthToken();
+        const token = user.generateAuthToken(); // Add to any route where user should be updated
         return res
             .header("x-auth-token", token)
-            .header("access-control-expose-headers", "x-auth-token")
+            .header("access-control-expose-headers", "x-auth-token") // Stop here; not .send
             .send({
-                _id: user._id,
+                _id: user._id, 
                 name: user.name,
-                email: user.email,
+                email: user.email, 
                 isAdmin: user.isAdmin,
                 image: user.image,
                 posts: user.posts

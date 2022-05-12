@@ -46,7 +46,9 @@ userSchema.methods.generateAuthToken = function () {
             name: this.name,
             email: this.email,
             isAdmin: this.isAdmin,
-            image: this.image
+            image: this.image,
+            posts: this.posts,
+            friends: this.friends
         },
         process.env.JWT_SECRET
     );
