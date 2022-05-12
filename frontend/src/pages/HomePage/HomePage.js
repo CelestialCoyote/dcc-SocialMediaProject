@@ -10,18 +10,20 @@ const HomePage = () => {
     //  state variables for comments
     const [posts, setPosts] = useState(null);
     const { user } = useContext(AuthContext);
+    const decodedUser = localStorage.getItem("token");
 
     // grabbing all the posts from API.  
     const handleGetComments = async () => {
         let response = await axios
-            .get(`http://localhost:3011/api/posts/${user._id}/allPosts`);
+            .get(`http://localhost:3011/api/posts/${user._id}/allPosts`,
+            {headers :{"x-auth-token": decodedUser}});
         setPosts(response.data);
         console.log("This is the response data", posts);
     };
 
     useEffect(() => {
         handleGetComments();
-    });
+    }, []);
 
     return (
 
