@@ -1,0 +1,15 @@
+#postContainer {
+    border: 1px solid red;
+    border-radius: 0.5em;
+    margin: 0.5em;
+}
+
+.marginOne {
+    margin: 1.0em;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

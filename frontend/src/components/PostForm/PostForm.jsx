@@ -7,13 +7,19 @@ import useCustomForm from "../../hooks/useCustomForm";
 const PostForm = (props) => {
 
     const { user } = useContext(AuthContext);
-    const [formData, handleInputChange, handleSubmit, reset] = useCustomForm(postNewPost);
+    const defaultValues = { postText: "" };
+    const [formData, handleInputChange, handleSubmit, reset] = useCustomForm(
+        defaultValues,
+        postNewPost
+    );
 
     async function postNewPost() {
         try {
-            await axios
-                .post(`http://localhost:3011/api/posts`, formData)
-                .then(res => res.data);
+            let response = await axios
+                .post(`http://localhost:3011/api/posts/${user._id}/createPost`,
+                    formData,
+                    {headers :{"x-auth-token": localStorage.getItem('token')}})
+                .then(res => response.data);
         } catch (error) {
             console.log(error);
         }
@@ -26,9 +32,9 @@ const PostForm = (props) => {
                 <label>Add Post
                     <input
                         type="text"
-                        name="text"
+                        name="postText"
                         placeholder="What's on your mind?"
-                        value={formData.text}
+                        value={formData.postText}
                         onChange={handleInputChange} />
                 </label>
                 <label>

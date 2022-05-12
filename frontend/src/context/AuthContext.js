@@ -20,7 +20,8 @@ export const AuthProvider = ({ children }) => {
       let response = await axios.post(`${BASE_URL}/register`, registerData);
       if (response.status === 200) {
         let token = response.headers["x-auth-token"];
-        localStorage.setItem("token", JSON.stringify(token));
+        //localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("token", token);
         setUser(jwtDecode(token));
         navigate("/");
       } else {
@@ -36,7 +37,8 @@ export const AuthProvider = ({ children }) => {
       let response = await axios.post(`${BASE_URL}/login`, loginData);
       console.log(response)
       if (response.status === 200) {
-        localStorage.setItem("token", JSON.stringify(response.data));
+        //localStorage.setItem("token", JSON.stringify(response.data));
+        localStorage.setItem("token", response.data);
         console.log('step 1');
         setUser(jwtDecode(response.data));
         console.log('step 2');

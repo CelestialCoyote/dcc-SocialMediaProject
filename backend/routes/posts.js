@@ -65,7 +65,7 @@ router.get("/:userID/allPosts", async (req, res) => {
 });
 
 // POST add a new Post to User.posts array.
-router.post("/:userID/createPost",[auth], async (req, res) => {
+router.post("/:userID/createPost", auth, async (req, res) => {
   try {
     const { error } = validatePost(req.body);
     if (error) return res.status(400).send(`Body for post not valid! ${error}`);

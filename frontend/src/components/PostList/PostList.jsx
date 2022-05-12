@@ -1,13 +1,20 @@
-import Post from "../Post/Post";
-const PostList = (props) => {
-    return ( 
-    //    TODO: find a way to display posts
-       <ul>
-            {props.comments && props.comments.map(comment =><p key={comment._id}>Comment Text: { comment.text}</p>)}
-            
-       </ul>
+import Post from '../Post/Post';
+import './PostList.css';
 
-     );
+
+const PostList = (props) => {
+
+    return (
+
+        <div id="postListContainer">
+        
+            <ul className="radiumUL">
+                {props.posts && props.posts.map(post => <li key={post._id}> <Post post={post} /> </li>)}
+            </ul>
+
+        </div>
+
+    );
 }
- 
+
 export default PostList;

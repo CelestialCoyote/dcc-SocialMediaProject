@@ -7,37 +7,36 @@ import PostList from "../../components/PostList/PostList";
 
 
 const HomePage = () => {
-  //  state variables for comments
-  const [comments, setComments] = useState(null);
+    //  state variables for comments
+    const [posts, setPosts] = useState(null);
+    const { user } = useContext(AuthContext);
 
-  
+    // grabbing all the posts from API.  
+    const handleGetComments = async () => {
+        let response = await axios
+            .get(`http://localhost:3011/api/posts/${user._id}/allPosts`);
+        setPosts(response.data);
+        console.log("This is the response data", posts);
+    };
 
+    useEffect(() => {
+        handleGetComments();
+    });
 
-  const { user } = useContext(AuthContext);
-  // grabbing all the posts from API.  
-  const grabComments = async () => {
-    let response = await axios.get(
-      `http://localhost:3011/api/posts/${user._id}/allPosts`
+    return (
+
+        <div>
+
+            <h1 className="container">Home Page for {user.name}!</h1>
+            <div>
+                <PostForm />
+                <PostList posts={posts} />
+            </div>
+
+        </div>
+        
     );
-   setComments(response.data);
-   console.log("This is the response data",comments);
-  };
-
-  useEffect(() => {
-    // grabComments();
-  }, []);
-
-  return (
-    <div>
-      <h1 className="container">Home Page for {user.name}!</h1>
-      {/* {comments[0] ?<h1 className="container">Home Page for {comments[0].text}!</h1>: null} */}
-      {/* {comments && comments.map(comment =><h2>Comment Text: { comment.text}</h2>)} */}
-      <button onClick={() => grabComments()}>Test Button</button>
-      <PostForm />
-      <PostList comments= {comments}/>
-
-    </div>
-  );
 };
+
 
 export default HomePage;
