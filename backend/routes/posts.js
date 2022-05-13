@@ -80,7 +80,14 @@ router.post("/:userID/createPost", auth, async (req, res) => {
     user.posts.push(post);
     await user.save();
 
-    return res.status(200).send(user.posts);
+    const token = user.generateAuthToken(); // Add to any route where user should be updated
+
+    return res
+        .status(200)
+        .send(user.posts)
+        .header("x-auth-token", token)
+        .header("access-control-expose-headers", "x-auth-token");
+        
   } catch (error) {
     return res.status(500).send(`Internal Server Error: ${error}`);
   }
@@ -108,13 +115,18 @@ router.put("/:userID/updatePost/:postID", [auth], async (req, res) => {
     post.likes = req.body.likes;
     await user.save();
 
-    return res.status(200).send(user);
+    return res
+        .status(200)
+        .send(user.posts)
+        .header("x-auth-token", token)
+        .header("access-control-expose-headers", "x-auth-token");
+
   } catch (error) {
     return res.status(500).send(`Internal Server Error: ${error}`);
   }
 });
 
-// Delete a user post by postID.
+// DELETE a user post by postID.
 router.delete("/:userID/deletePost/:postID", [auth], async (req, res) => {
   try {
     let user = await User.findById(req.params.userID);
@@ -127,10 +139,21 @@ router.delete("/:userID/deletePost/:postID", [auth], async (req, res) => {
 
     await user.save();
 
-    return res.status(200).send(user);
+    return res
+        .status(200)
+        .send(user.posts)
+        .header("x-auth-token", token)
+        .header("access-control-expose-headers", "x-auth-token");
+        
   } catch (error) {
     return res.status(500).send(`Internal Server Error: ${error}`);
   }
 });
+
+// return res
+// .status(200)
+// .send(user.posts)
+// .header("x-auth-token", token)
+// .header("access-control-expose-headers", "x-auth-token");
 
 module.exports = router;
