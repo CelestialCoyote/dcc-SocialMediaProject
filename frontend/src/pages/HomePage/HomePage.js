@@ -28,9 +28,10 @@ const HomePage = () => {
     return (
 
         <div>
-
+              
             <h1 className="container">Home Page for {user.name}!</h1>
             <div>
+                 <img  className = "avatar_profile_pic" src="http://localhost:3011/uploads/images/placeholder_avatar.jpg" />
                 <PostForm setPosts={setPosts} />
                 <PostList posts={posts} />
             </div>

@@ -1,5 +1,7 @@
 // General Imports
 import { Routes, Route } from "react-router-dom";
+import React, { useState } from 'react';
+
 import "./App.css";
 
 // Pages Imports
@@ -15,12 +17,16 @@ import Footer from "./components/Footer/Footer";
 import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
+//   state variables 
+// setting the user's photo
+ const [user,setUser] = useState({});
+ const [file,setFile] = useState();
+
+
+
   return (
     <div>
       <Navbar />
-      {/*<img
-        src={`http://localhost:3011/uploads/images/73a392c0-d09f-11ec-b964-6769c85b7b3c.jpeg`}
-      />*/}
       <Routes>
         <Route
           path="/"

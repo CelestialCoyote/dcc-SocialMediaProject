@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema({
     },
     image: {
         type: String,
-        default: "",
+        default: "../uploads/images/placeholder_avatar.jpg",
     },
     posts:
         [{ type: postSchema }]
