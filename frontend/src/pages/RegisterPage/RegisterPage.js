@@ -19,6 +19,7 @@ const RegisterPage = () => {
                     <input
                         type="text"
                         name="name"
+                        placeholder="5 character minimum"
                         value={formData.name}
                         onChange={handleInputChange}
                     />

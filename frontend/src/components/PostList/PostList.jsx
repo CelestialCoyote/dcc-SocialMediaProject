@@ -9,7 +9,7 @@ const PostList = (props) => {
         <div id="postListContainer">
         
             <ul className="radiumUL">
-                {props.posts && props.posts.map(post => <li key={post._id}> <Post post={post} /> </li>)}
+                {props.posts && props.posts.map(post => <li key={post._id}> <Post post={post} friendsList={props.friendsList} /> </li>)}
             </ul>
 
         </div>

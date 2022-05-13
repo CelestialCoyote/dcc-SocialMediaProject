@@ -6,6 +6,7 @@ import "./App.css";
 
 // Pages Imports
 import HomePage from "./pages/HomePage/HomePage";
+import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
@@ -36,6 +37,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/friends" element={<FriendsPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
