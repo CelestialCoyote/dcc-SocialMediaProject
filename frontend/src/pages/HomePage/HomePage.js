@@ -54,26 +54,9 @@ const HomePage = () => {
             <h1 className="container">Home Page for {user.name}!</h1>
 
             <div>
-<<<<<<< HEAD
                  <img  className = "avatar_profile_pic" src={`http://localhost:3011/${user.image}`} />
                 <PostForm setPosts={setPosts} />
                 <PostList posts={posts} />
-=======
-                <div>
-                    <PostForm setPosts={setPosts} />
-                    {/*<PostList posts={allPosts} />*/}
-                </div>
-                <div className="flex-row">
-                    <div className="width50">
-                        <PostList posts={friendsPosts} friendsList={true} />
-                    </div>
-                    <div className="width50">
-                        <PostList posts={posts} friendsList={false} />
-                    </div>
-
-                </div>
-
->>>>>>> 2dab3922a629b8c4a55f396e7d1027e6b4e55e5e
             </div>
 
 
