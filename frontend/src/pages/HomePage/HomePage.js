@@ -5,7 +5,6 @@ import PostForm from "../../components/PostForm/PostForm";
 import axios from "axios";
 import PostList from "../../components/PostList/PostList";
 import './HomePage.css';
-import UserInfoDisplay from "../../components/UserInfoDisplay/UserInfoDisplay";
 
 
 const HomePage = () => {
@@ -55,10 +54,9 @@ const HomePage = () => {
             <h1 className="container">Home Page for {user.name}!</h1>
 
             <div>
-                 <UserInfoDisplay user = {user}/>
+                 <img  className = "avatar_profile_pic" src={`http://localhost:3011/${user.image}`} />
                 <PostForm setPosts={setPosts} />
                 <PostList posts={posts} />
-
             </div>
 
 
