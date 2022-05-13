@@ -4,6 +4,7 @@ import "./App.css";
 
 // Pages Imports
 import HomePage from "./pages/HomePage/HomePage";
+import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
@@ -18,9 +19,6 @@ function App() {
   return (
     <div>
       <Navbar />
-      {/*<img
-        src={`http://localhost:3011/uploads/images/73a392c0-d09f-11ec-b964-6769c85b7b3c.jpeg`}
-      />*/}
       <Routes>
         <Route
           path="/"
@@ -30,6 +28,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/friends" element={<FriendsPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
