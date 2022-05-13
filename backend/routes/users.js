@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 // POST register a new user
-router.post("/register", fileUpload.single("image"), async (req, res) => {
+router.post("/register",  async (req, res) => {
     try {
         const { error } = validateUser(req.body);
         if (error)
@@ -120,7 +120,7 @@ router.get("/:userID/getOneUser", [auth], async (req, res) => {
 });
 
 // PUT to update user information by ID.
-router.put("/:userID/updateUser", [auth], async (req, res) => {
+router.put("/:userID/updateUser", [auth,fileUpload.single("image")], async (req, res) => {
     try {
         const { error } = validateUser(req.body);
         if (error)
@@ -128,7 +128,7 @@ router.put("/:userID/updateUser", [auth], async (req, res) => {
                 .status(400)
                 .send(`Body for user not valid! ${error}`);
 
-        let user = await User.findByIdAndUpdate(req.params.userID, req.body, { new: true, });
+        let user = await User.findByIdAndUpdate(req.params.userID, {...req.body,image: req.file.path }, { new: true, });
         if (!user)
             return res
                 .status(400)

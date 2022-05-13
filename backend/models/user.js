@@ -58,8 +58,8 @@ const validateUser = (user) => {
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
-        password: Joi.string().min(5).max(1024).required(),
-        isAdmin: Joi.bool().required(),
+        password: Joi.string().min(5).max(1024),
+        isAdmin: Joi.bool(),
         friends: Joi.array(),
         image: Joi.string(),
         posts: Joi.array(),

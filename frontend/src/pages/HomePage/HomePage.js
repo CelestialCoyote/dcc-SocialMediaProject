@@ -31,7 +31,7 @@ const HomePage = () => {
               
             <h1 className="container">Home Page for {user.name}!</h1>
             <div>
-                 <img  className = "avatar_profile_pic" src="http://localhost:3011/uploads/images/placeholder_avatar.jpg" />
+                 <img  className = "avatar_profile_pic" src={`http://localhost:3011/${user.image}`} />
                 <PostForm setPosts={setPosts} />
                 <PostList posts={posts} />
             </div>
