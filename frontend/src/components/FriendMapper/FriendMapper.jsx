@@ -1,15 +1,15 @@
-//import Post from '../Post/Post';
-//import './PostList.css';
+import UserCard from '../UserCard/UserCard';
+import './FriendMapper.css';
 
 
 const FriendMapper = (props) => {
 
     return (
 
-        <div className="friendMapper">
+        <div id="friendMapper">
         
             <ul className="radiumUL">
-                {/*{props.allUsers && props.allUsers.map(user => <li key={user._id}> <Post post={} /> </li>)}*/}
+                {props.allUsers && props.allUsers.map(user => <li key={user._id}> <UserCard user={user} /> </li>)}
             </ul>
 
         </div>
