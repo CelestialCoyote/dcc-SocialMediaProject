@@ -115,7 +115,12 @@ router.put("/:userID/updatePost/:postID", [auth], async (req, res) => {
     post.likes = req.body.likes;
     await user.save();
 
-    return res.status(200).send(user);
+    return res
+        .status(200)
+        .send(user.posts)
+        .header("x-auth-token", token)
+        .header("access-control-expose-headers", "x-auth-token");
+
   } catch (error) {
     return res.status(500).send(`Internal Server Error: ${error}`);
   }
@@ -134,7 +139,12 @@ router.delete("/:userID/deletePost/:postID", [auth], async (req, res) => {
 
     await user.save();
 
-    return res.status(200).send(user);
+    return res
+        .status(200)
+        .send(user.posts)
+        .header("x-auth-token", token)
+        .header("access-control-expose-headers", "x-auth-token");
+        
   } catch (error) {
     return res.status(500).send(`Internal Server Error: ${error}`);
   }
