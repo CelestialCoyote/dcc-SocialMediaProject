@@ -3,7 +3,6 @@ import './UserCard.css';
 const UserCard = (props) => {
 
     let imagePath = `http://localhost:3011/${props.user.image}`;
-    console.log('This image path is:', imagePath);
 
     return (
 

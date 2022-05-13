@@ -36,10 +36,10 @@ const FriendsPage = () => {
                 <h2>People you may know</h2>
                 <FriendMapper allUsers={allUsers} />
             </div>
-            <div>
+            <div className="friendsCardContainer">
                 <h2>Friends</h2>
             </div>
-            <div>
+            <div className="friendsCardContainer">
                 <h2>Pending Friends</h2>
             </div>
         </div>
