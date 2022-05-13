@@ -240,7 +240,6 @@ router.delete("/:userID", [auth, admin], async (req, res) => {
             .send(user)
             .header("x-auth-token", token)
             .header("access-control-expose-headers", "x-auth-token");
-            
 
     } catch (ex) {
         return res
@@ -248,6 +247,12 @@ router.delete("/:userID", [auth, admin], async (req, res) => {
             .send(`Internal Server Error: ${ex}`);
     }
 });
+
+// return res
+// .status(200)
+// .send(user.posts)
+// .header("x-auth-token", token)
+// .header("access-control-expose-headers", "x-auth-token");
 
 
 module.exports = router;

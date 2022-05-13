@@ -140,4 +140,10 @@ router.delete("/:userID/deletePost/:postID", [auth], async (req, res) => {
   }
 });
 
+// return res
+// .status(200)
+// .send(user.posts)
+// .header("x-auth-token", token)
+// .header("access-control-expose-headers", "x-auth-token");
+
 module.exports = router;
