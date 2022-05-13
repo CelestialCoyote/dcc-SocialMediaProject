@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
+import './FriendsPage.css';
 import FriendMapper from "../../components/FriendMapper/FriendMapper";
 
 
@@ -13,11 +14,15 @@ const FriendsPage = () => {
     const decodedUser = localStorage.getItem("token");
 
     const handleGetAllUsers = async () => {
-        let response = await axios
+        let allUsers = await axios
             .get(`http://localhost:3011/api/users/`,
                 { headers: { "x-auth-token": decodedUser } });
-        setAllUsers(response.data);
-        console.log("All users array", allUsers);
+        setAllUsers(allUsers.data);
+
+        let friends = await axios
+            .get(`http://localhost:3011/api/users/`,
+                { headers: { "x-auth-token": decodedUser } });
+        setFriends(friends.data);
     };
 
     useEffect(() => {
@@ -27,14 +32,14 @@ const FriendsPage = () => {
     return (
 
         <div id="friendsContainer">
-            <div>
+            <div className="friendsCardContainer">
                 <h2>People you may know</h2>
                 <FriendMapper allUsers={allUsers} />
             </div>
-            <div>
+            <div className="friendsCardContainer">
                 <h2>Friends</h2>
             </div>
-            <div>
+            <div className="friendsCardContainer">
                 <h2>Pending Friends</h2>
             </div>
         </div>

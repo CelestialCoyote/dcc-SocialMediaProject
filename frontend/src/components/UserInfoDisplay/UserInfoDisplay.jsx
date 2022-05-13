@@ -20,4 +20,5 @@ const UserInfoDisplay = (props) => {
     );
 }
  
+
 export default UserInfoDisplay;

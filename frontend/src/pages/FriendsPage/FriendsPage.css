@@ -2,3 +2,9 @@
     display: flex;
     flex-direction: column;
 }
+
+.friendsCardContainer {
+    border: 1px solid blue;
+    border-radius: 0.5em;
+    padding: 1.0em;
+}
