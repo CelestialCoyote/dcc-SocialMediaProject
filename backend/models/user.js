@@ -28,10 +28,10 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         required: true,
     },
-    image: {
-        type: String,
-        default: "../uploads/images/placeholder_avatar.jpg",
-    },
+    // image: {
+    //     type: String,
+    //     default: "../uploads/images/placeholder_avatar.jpg",
+    // },
     posts:
         [{ type: postSchema }],
     friends: {
@@ -49,7 +49,7 @@ userSchema.methods.generateAuthToken = function () {
             name: this.name,
             email: this.email,
             isAdmin: this.isAdmin,
-            image: this.image,
+            // image: this.image,
             posts: this.posts,
             friends: this.friends,
             pendingFriends: this.pendingFriends,
@@ -64,7 +64,7 @@ const validateUser = (user) => {
         email: Joi.string().min(5).max(255).required().email(),
         password: Joi.string().min(5).max(1024),
         isAdmin: Joi.bool(),
-        image: Joi.string(),
+        // image: Joi.string(),
         posts: Joi.array(),
         friends: Joi.array(),
         pendingFriends: Joi.array(),
