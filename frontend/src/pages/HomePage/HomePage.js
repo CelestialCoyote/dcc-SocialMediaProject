@@ -44,6 +44,7 @@ const HomePage = () => {
             <h1 className="container">Home Page for {user.name}!</h1>
             <UserInfoDisplay user={user} />
 
+                 <UserInfoDisplay user = {user}/>
             <div>
                 <PostForm setPosts={setPosts} />
                 
