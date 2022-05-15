@@ -35,10 +35,10 @@ const userSchema = mongoose.Schema({
     posts:
         [{ type: postSchema }],
     friends: {
-        type: [],
+        type: [ { type: mongoose.Types.ObjectId } ],
     },
     pendingFriends: {
-        type: [],
+        type: [ { type: mongoose.Types.ObjectId } ],
     },
 });
 

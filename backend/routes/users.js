@@ -34,17 +34,20 @@ router.post("/register",  async (req, res) => {
         });
         await user.save();
 
-        const token = user.generateAuthToken(); // Add to any route where user should be updated
+        const token = user.generateAuthToken();
+
         return res
             .header("x-auth-token", token)
-            .header("access-control-expose-headers", "x-auth-token") // Stop here; not .send
+            .header("access-control-expose-headers", "x-auth-token")
             .send({
                 _id: user._id, 
                 name: user.name,
                 email: user.email, 
                 isAdmin: user.isAdmin,
-                // image: user.image,
-                posts: user.posts
+                image: user.image,
+                posts: user.posts,
+                friends: user.freinds,
+                pendingFriends: user.pendingFriends
             });
     } catch (ex) {
         return res
@@ -120,7 +123,7 @@ router.get("/:userID/getOneUser", [auth], async (req, res) => {
 });
 
 // PUT to update user information by ID.
-router.put("/:userID/updateUser", [auth,fileUpload.single("image")], async (req, res) => {
+router.put("/:userID/updateUser", [auth, fileUpload.single("image")], async (req, res) => {
     try {
         const { error } = validateUser(req.body);
         if (error)
@@ -128,20 +131,23 @@ router.put("/:userID/updateUser", [auth,fileUpload.single("image")], async (req,
                 .status(400)
                 .send(`Body for user not valid! ${error}`);
 
-        let user = await User.findByIdAndUpdate(req.params.userID, {...req.body, /*image: req.file.path*/ }, { new: true, });
+        let user = await User.findByIdAndUpdate(
+            req.params.userID,
+            {...req.body, /*image: req.file.path*/ },
+            { new: true, }
+        );
         if (!user)
             return res
                 .status(400)
                 .send(`User with ObjectId ${req.params.userID} does not exist.`);
 
-        const token = user.generateAuthToken(); // Add to any route where user should be updated
+        const token = user.generateAuthToken();
 
         return res
             .status(200)
-            .send(user)
             .header("x-auth-token", token)
-            .header("access-control-expose-headers", "x-auth-token");
-            
+            .header("access-control-expose-headers", "x-auth-token")
+            .send(user);
     } catch (ex) {
         return res
             .status(500)
@@ -176,10 +182,9 @@ router.put("/:userID/friendToAdd/:friendID", [auth], async (req, res) => {
 
         return res
             .status(200)
-            .send(user)
             .header("x-auth-token", token)
-            .header("access-control-expose-headers", "x-auth-token");
-
+            .header("access-control-expose-headers", "x-auth-token")
+            .send(user);
     } catch (ex) {
         return res
             .status(500)
@@ -206,15 +211,13 @@ router.put("/:userID/friendToRemove/:friendID", [auth], async (req, res) => {
         user.friends = newArray;
         await user.save();
 
-        const token = user.generateAuthToken(); // Add to any route where user should be updated
+        const token = user.generateAuthToken();
 
         return res
             .status(200)
-            .send(user)
             .header("x-auth-token", token)
-            .header("access-control-expose-headers", "x-auth-token");
-            
-
+            .header("access-control-expose-headers", "x-auth-token")
+            .send(user);
     } catch (ex) {
         return res
             .status(500)
@@ -237,10 +240,9 @@ router.delete("/:userID", [auth, admin], async (req, res) => {
         return res
 
             .status(200)
-            .send(user)
             .header("x-auth-token", token)
-            .header("access-control-expose-headers", "x-auth-token");
-
+            .header("access-control-expose-headers", "x-auth-token")
+            .send(user);
     } catch (ex) {
         return res
             .status(500)
