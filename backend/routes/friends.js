@@ -19,7 +19,20 @@ router.get("/:userID/notCurrentUserNotFriends", [auth], async (req, res) => {
                 .send(`User with ObjectId ${req.params.userID} does not exist.`);
 
         const users = await User.find({
+            // Original. Removes friends and user from all users.
+            // Pending friends still included in all users.
+            // Trying to remove pendingFriends & friends & user from all users array.
             '_id': { $nin: user.friends, $ne: req.params.userID }
+            // Ignores the firs $nin check, does second $nin and $ne
+            //'_id': { $nin: user.friends, $nin: user.pendingFriends, $ne: req.params.userID }
+            // Ignores the firs $nin check, does second $nin and $ne
+            //'_id': { $nin: user.friends && user.pendingFriends, $ne: req.params.userID }
+            // Breaks completely.
+            //'_id': { $nin: [user.friends, user.pendingFriends], $ne: req.params.userID }
+            // Breaks completely.
+            //'_id': { $nin: [{_id: user.friends}, {_id: user.pendingFriends}], $ne: req.params.userID }
+            // Breaks completely.
+            //'_id': { $nin: [user.friends && user.pendingFriends], $ne: req.params.userID }
         });
 
         return res

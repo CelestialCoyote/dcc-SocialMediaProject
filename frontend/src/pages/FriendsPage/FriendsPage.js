@@ -3,7 +3,9 @@ import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
 import './FriendsPage.css';
+import UserMapper from "../../components/UserMapper/UserMapper";
 import FriendMapper from "../../components/FriendMapper/FriendMapper";
+import PendingFriendMapper from "../../components/PendingFriendMapper/PendingFriendMapper";
 
 
 const FriendsPage = () => {
@@ -43,15 +45,15 @@ const FriendsPage = () => {
         <div id="friendsContainer">
             <div className="friendsCardContainer">
                 <h2>People you may know</h2>
-                <FriendMapper allUsers={allUsers} />
+                <UserMapper allUsers={allUsers} />
             </div>
             <div className="friendsCardContainer">
                 <h2>Friends</h2>
-                <FriendMapper allUsers={friends} />
+                <FriendMapper friends={friends} />
             </div>
             <div className="friendsCardContainer">
                 <h2>Pending Friends</h2>
-                <FriendMapper allUsers={pendingFriends} />
+                <PendingFriendMapper pendingFriends={pendingFriends} />
             </div>
         </div>
 

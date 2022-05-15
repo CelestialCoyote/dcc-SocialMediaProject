@@ -1,4 +1,4 @@
-import UserCard from '../UserCard/UserCard';
+import FriendCard from '../FriendCard/FriendCard';
 import './FriendMapper.css';
 
 
@@ -9,7 +9,10 @@ const FriendMapper = (props) => {
         <div id="friendMapper">
         
             <ul className="radiumUL">
-                {props.allUsers && props.allUsers.map(user => <li key={user._id}> <UserCard user={user} /> </li>)}
+                {props.friends && props.friends.map(friend =>
+                    <li key={friend._id}>
+                        <FriendCard friend={friend} />
+                    </li>)}
             </ul>
 
         </div>

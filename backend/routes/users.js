@@ -133,7 +133,7 @@ router.put("/:userID/updateUser", [auth, fileUpload.single("image")], async (req
 
         let user = await User.findByIdAndUpdate(
             req.params.userID,
-            {...req.body, /*image: req.file.path*/ },
+            {...req.body, image: req.file.path },
             { new: true, }
         );
         if (!user)
