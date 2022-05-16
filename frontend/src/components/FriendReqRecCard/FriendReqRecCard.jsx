@@ -1,45 +1,47 @@
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import axios from 'axios';
-import './PendingFriendCard.css';
+import './FriendReqRecCard.css';
 
 
-const PendingFriendCard = (props) => {
+const FriendReqRecCard = (props) => {
     const { user } = useContext(AuthContext);
     const decodedUser = localStorage.getItem("token");
     const baseUrl = 'http://localhost:3011/api/';
 
-    let imagePath = `http://localhost:3011/${props.pendingFriend.image}`;
+    let imagePath = `http://localhost:3011/${props.friendRequest.image}`;
 
     const handleAcceptFriendRequest = async () => {
-        let newFriend = await axios
-            .put(`${baseUrl}friends/${user._id}/friendToAdd/${props.pendingFriend._id}`, user._id,
+        console.log('Current user id: \n', user._id);
+        console.log('New friend id: \n', props.friendRequest._id);
+        let friendReq = await axios
+            .put(`${baseUrl}friends/${user._id}/acceptFriendRequest/${props.friendRequest._id}`, user._id,
                 { headers: { "x-auth-token": decodedUser } });
 
-        console.log('New friend data: \n', newFriend.data);
-        props.setFriends(newFriend.data.friends);
+        //console.log('New friend data: \n', friendReq.data);
+        props.setFriends(friendReq.data.friends);
     }
 
     const handleDeclineFriendRequest = async () => {
-        let newFriend = await axios
-            .put(`${baseUrl}friends/${user._id}/removePendingFriend/${props.pendingFriend._id}`, user._id,
+        let friendReq = await axios
+            .put(`${baseUrl}friends/${user._id}/removePendingFriend/${props.friendRequest._id}`, user._id,
                 { headers: { "x-auth-token": decodedUser } });
 
-        console.log('New friend data: \n', newFriend.data);
-        props.setPendingFriends(newFriend.data.pendingFriends);
+        //console.log('New friend data: \n', friendReq.data);
+        props.setFriendReqRecieved(friendReq.data.friendReqReceived);
     }
 
     return (
 
-        <div id="pendingFriendCard">
+        <div id="requestReceivedCard">
 
             <img id="profileImage" src={imagePath} alt="Profile" height={100} width={100} />
             <div>
 
                 <p className="text">Name:</p>
-                <p className="text">{props.pendingFriend.name}</p>
+                <p className="text">{props.friendRequest.name}</p>
                 <p className="text">Email:</p>
-                <p className="text">{props.pendingFriend.email}</p>
+                <p className="text">{props.friendRequest.email}</p>
 
                 <div>
                     <label id="acceptFriendRequest" onClick={handleAcceptFriendRequest}>Accept</label>
@@ -54,4 +56,4 @@ const PendingFriendCard = (props) => {
 }
 
 
-export default PendingFriendCard;
+export default FriendReqRecCard;

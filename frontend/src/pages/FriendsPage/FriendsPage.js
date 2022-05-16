@@ -5,58 +5,99 @@ import axios from "axios";
 import './FriendsPage.css';
 import UserMapper from "../../components/UserMapper/UserMapper";
 import FriendMapper from "../../components/FriendMapper/FriendMapper";
-import PendingFriendMapper from "../../components/PendingFriendMapper/PendingFriendMapper";
+import FriendReqRecMapper from "../../components/FriendReqRecMapper/FriendReqRecMapper";
+import FriendReqSentMapper from "../../components/FriendReqSentMapper/FriendReqSentMapper";
 
 
 const FriendsPage = () => {
 
     const [allUsers, setAllUsers] = useState([]);
     const [friends, setFriends] = useState(null);
-    const [pendingFriends, setPendingFriends] = useState(null);
+    const [friendReqReceived, setFriendReqReceived] = useState(null);
+    const [friendReqSent, setFriendReqSent] = useState(null);
     const { user } = useContext(AuthContext);
     const decodedUser = localStorage.getItem("token");
+    const baseUrl = 'http://localhost:3011/api/';
 
     const handleGetAllUsers = async () => {
         let allUsers = await axios
-            .get(`http://localhost:3011/api/friends/${user._id}/notCurrentUserNotFriends`,
+            .get(`${baseUrl}friends/${user._id}/notCurrentUserNotFriends`,
                 { headers: { "x-auth-token": decodedUser } });
 
         setAllUsers(allUsers.data);
 
         let friends = await axios
-            .get(`http://localhost:3011/api/friends/${user._id}/allFriends/`,
+            .get(`${baseUrl}friends/${user._id}/allFriends/`,
                 { headers: { "x-auth-token": decodedUser } });
-        
+
         setFriends(friends.data);
 
-        let pendingFriends = await axios
-            .get(`http://localhost:3011/api/friends/${user._id}/allPendingFriends/`,
+        let friendRequestsReceived = await axios
+            .get(`${baseUrl}friends/${user._id}/allFriendRequestsReceived/`,
                 { headers: { "x-auth-token": decodedUser } });
-        
-        setPendingFriends(pendingFriends.data);
+
+        //console.log(friendRequestsReceived.data);
+        setFriendReqReceived(friendRequestsReceived.data);
+
+        let friendRequestsSent = await axios
+            .get(`${baseUrl}friends/${user._id}/allFriendRequestsSent/`,
+                { headers: { "x-auth-token": decodedUser } });
+
+        //console.log(friendRequestsSent.data);
+        setFriendReqSent(friendRequestsSent.data);
     };
 
     useEffect(() => {
         handleGetAllUsers();
     }, []);
-    
+
     return (
 
         <div id="friendsContainer">
             <div className="friendsCardContainer">
                 <h2>People you may know</h2>
-                <UserMapper allUsers={allUsers} />
+                <UserMapper allUsers={allUsers} setFriendReqSent={setFriendReqSent}/>
             </div>
+
             <div className="friendsCardContainer">
                 <h2>Friends</h2>
                 <FriendMapper friends={friends} />
             </div>
+
             <div className="friendsCardContainer">
-                <h2>Pending Friends</h2>
-                <PendingFriendMapper
-                    pendingFriends={pendingFriends} setPendingFriends={setPendingFriends}
-                    friends={friends} setFriends={setFriends} />
+                <h2>Friend Requests Received</h2>
+                <FriendReqRecMapper
+                    friendReqReceived={friendReqReceived} setFriendRequests={setFriendReqReceived}
+                    friends={friends} setFriends={setFriends}
+                />
             </div>
+
+            <div className="friendsCardContainer">
+                <h2>Friend Requests Sent</h2>
+                <FriendReqSentMapper
+                    friendReqSent={friendReqSent}
+                />
+            </div>
+
+
+            {/*{user.friendRequestsReceived &&
+                <div className="friendsCardContainer">
+                    <h2>Friend Requests Received</h2>
+                    <FriendReqRecMapper
+                        friendReqReceived={friendReqReceived} setFriendRequests={setFriendReqReceived}
+                        friends={friends} setFriends={setFriends}
+                    />
+                </div>
+            }
+            {user.friendRequestsSent &&
+                <div className="friendsCardContainer">
+                    <h2>Friend Requests Sent</h2>
+                    <FriendReqSentMapper
+                        friendReqSent={friendReqSent} setFriendRequests={setFriendReqSent}
+                        friends={friends} setFriends={setFriends}
+                    />
+                </div>
+            }*/}
         </div>
 
     );

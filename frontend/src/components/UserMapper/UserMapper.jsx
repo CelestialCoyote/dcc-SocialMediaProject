@@ -11,7 +11,7 @@ const UserMapper = (props) => {
             <ul className="radiumUL">
                 {props.allUsers && props.allUsers.map(user =>
                     <li key={user._id}>
-                        <UserCard user={user} />
+                        <UserCard user={user} setFriendReqSent={props.setFriendReqSent} />
                     </li>)}
             </ul>
 

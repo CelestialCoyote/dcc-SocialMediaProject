@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     const loginUser = async (loginData) => {
         try {
             let response = await axios.post(`${BASE_URL}/login`, loginData);
-            console.log(response)
+            //console.log(response)
             if (response.status === 200) {
                 localStorage.setItem("token", response.data);
                 setUser(jwtDecode(response.data));

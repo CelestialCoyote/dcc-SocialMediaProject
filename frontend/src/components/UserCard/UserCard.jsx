@@ -11,17 +11,12 @@ const UserCard = (props) => {
 
     let imagePath = `http://localhost:3011/${props.user.image}`;
 
-    const handleFriendRequest = async () => {
-        console.log('Current user: ', user.name);
-        console.log('Current user _id: ', user._id);
-        console.log('Pending friend: ', props.user.name);
-        console.log('Pending friend _id: ', props.user._id);
+    const handleSendFriendRequest = async () => {
         let newFriend = await axios
-            .put(`${baseUrl}friends/${user._id}/addPendingFriend/${props.user._id}`,
+            .put(`${baseUrl}friends/${user._id}/sendFriendRequest/${props.user._id}`, user._id,
                 { headers: { "x-auth-token": decodedUser } });
 
-        console.log('New friend data: \n', newFriend.data);
-        //props.setPendingFriends(newFriend.data.pendingFriends);
+        props.setFriendReqSent(newFriend.data.friendReqSent);
     }
 
     return (
@@ -34,7 +29,7 @@ const UserCard = (props) => {
                 <p className="text">{props.user.name}</p>
                 <p className="text">Email:</p>
                 <p className="text">{props.user.email}</p>
-                <label className="userCardRequest" onClick={handleFriendRequest}>Send Friend Request</label>
+                <label className="userCardRequest" onClick={handleSendFriendRequest}>Send Friend Request</label>
             </div>
         
         </div>

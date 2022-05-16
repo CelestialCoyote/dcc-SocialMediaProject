@@ -19,23 +19,16 @@ router.get("/:userID/notCurrentUserNotFriends", [auth], async (req, res) => {
                 .send(`User with ObjectId ${req.params.userID} does not exist.`);
 
         const users = await User.find({
-            // Original. Removes friends and user from all users.
-            // Pending friends still included in all users.
-            // Trying to remove pendingFriends & friends & user from all users array.
-            '_id': { $nin: user.friends, $ne: req.params.userID }
-            // Ignores the firs $nin check, does second $nin and $ne
-            //'_id': { $nin: user.friends, $nin: user.pendingFriends, $ne: req.params.userID }
-            // Ignores the firs $nin check, does second $nin and $ne
-            //'_id': { $nin: user.friends && user.pendingFriends, $ne: req.params.userID }
-            // Breaks completely.
-            //'_id': { $nin: [user.friends, user.pendingFriends], $ne: req.params.userID }
-            // Breaks completely.
-            //'_id': { $nin: [{_id: user.friends}, {_id: user.pendingFriends}], $ne: req.params.userID }
-            // Breaks completely.
-            //'_id': { $nin: [user.friends && user.pendingFriends], $ne: req.params.userID }
+            $and: [
+                { '_id': { $nin: user.friends } },
+                { '_id': { $ne: req.params.userID } },
+                { '_id': { $nin: user.friendReqReceived } },
+                { '_id': { $nin: user.friendReqSent } }
+            ]
         });
 
         return res
+            .status(200)
             .send(users);
     } catch (ex) {
         return res
@@ -58,6 +51,7 @@ router.get("/:userID/allFriends", [auth], async (req, res) => {
         });
 
         return res
+            .status(200)
             .send(friends);
     } catch (ex) {
         return res
@@ -66,8 +60,8 @@ router.get("/:userID/allFriends", [auth], async (req, res) => {
     }
 });
 
-// GET all friends of user.
-router.get("/:userID/allPendingFriends", [auth], async (req, res) => {
+// GET all current user friend requests received.
+router.get("/:userID/allFriendRequestsReceived", [auth], async (req, res) => {
     try {
         let user = await User.findById(req.params.userID);
         if (!user)
@@ -75,12 +69,13 @@ router.get("/:userID/allPendingFriends", [auth], async (req, res) => {
                 .status(400)
                 .send(`User with ObjectId ${req.params.userID} does not exist.`);
 
-        let pendingFriends = await User.find({
-            '_id': { $in: user.pendingFriends }
+        let requestsReceived = await User.find({
+            '_id': { $in: user.friendReqReceived }
         });
 
         return res
-            .send(pendingFriends);
+            .status(200)
+            .send(requestsReceived);
     } catch (ex) {
         return res
             .status(500)
@@ -88,8 +83,73 @@ router.get("/:userID/allPendingFriends", [auth], async (req, res) => {
     }
 });
 
-// PUT to add a friend to a user's friends array.
-router.put("/:userID/friendToAdd/:friendID", [auth], async (req, res) => {
+// GET all current user friend requests sent.
+router.get("/:userID/allFriendRequestsSent", [auth], async (req, res) => {
+    try {
+        let user = await User.findById(req.params.userID);
+        if (!user)
+            return res
+                .status(400)
+                .send(`User with ObjectId ${req.params.userID} does not exist.`);
+
+        let requestsSent = await User.find({
+            '_id': { $in: user.friendReqSent }
+        });
+
+        return res
+            .status(200)
+            .send(requestsSent);
+    } catch (ex) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${ex}`);
+    }
+});
+
+// PUT: Send a friend request from 'People You May Know array'.
+// Add current user to potential friend's friendReqReceived array.
+router.put("/:userID/sendFriendRequest/:friendID", [auth], async (req, res) => {
+    try {
+        let friendRequest = await User.findById(req.params.friendID);
+        if (!friendRequest)
+            return res
+                .status(400)
+                .send(`Friend with ObjectId ${req.params.friendID} does not exist.`);
+
+        let user = await User.findById(req.params.userID);
+        if (!user)
+            return res
+                .status(400)
+                .send(`User with ObjectId ${req.params.userID} does not exist.`);
+
+        if (user.friends.includes(friendRequest._id))
+            return res
+                .status(400)
+                .send(`User with ObjectId ${req.params.friendID} already a friend.`);
+
+        user.friendReqSent.push(friendRequest);
+        friendRequest.friendReqReceived.push(user);
+
+        await user.save();
+        await friendRequest.save();
+
+        const token = user.generateAuthToken(); // Add to any route where user should be updated
+
+        return res
+            .status(200)
+            .header("x-auth-token", token)
+            .header("access-control-expose-headers", "x-auth-token")
+            .send([user, friendRequest]);
+    } catch (ex) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${ex}`);
+    }
+});
+
+// PUT: Accept friend request from friendReqReceived array.
+// Add current user and requestot to each others friends array.
+router.put("/:userID/acceptFriendRequest/:friendID", [auth], async (req, res) => {
     try {
         let friendToAdd = await User.findById(req.params.friendID);
         if (!friendToAdd)
@@ -108,8 +168,11 @@ router.put("/:userID/friendToAdd/:friendID", [auth], async (req, res) => {
                 .status(400)
                 .send(`User with ObjectId ${req.params.friendID} already a friend.`);
 
-        friendToAdd.friends.push(user);
         user.friends.push(friendToAdd);
+        user.friendReqReceived.splice(user.friendReqReceived.indexOf(friendToAdd._id), 1);
+        friendToAdd.friends.push(user);
+        friendToAdd.friendReqSent.splice(friendToAdd.friendReqSent.indexOf(user._id), 1);
+
         await user.save();
         await friendToAdd.save();
 
@@ -216,6 +279,7 @@ router.put("/:userID/addPendingFriend/:friendID", [auth], async (req, res) => {
             .send(`Internal Server Error: ${ex}`);
     }
 });
+
 
 // PUT to remove a friend request from a user's pendingFriends array.
 router.put("/:userID/removePendingFriend/:friendID", [auth], async (req, res) => {

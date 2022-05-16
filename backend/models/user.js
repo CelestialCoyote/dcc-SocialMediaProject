@@ -37,7 +37,10 @@ const userSchema = mongoose.Schema({
     friends: {
         type: [ { type: mongoose.Types.ObjectId } ],
     },
-    pendingFriends: {
+    friendReqReceived: {
+        type: [ { type: mongoose.Types.ObjectId } ],
+    },
+    friendReqSent: {
         type: [ { type: mongoose.Types.ObjectId } ],
     },
 });
@@ -52,7 +55,8 @@ userSchema.methods.generateAuthToken = function () {
             image: this.image,
             posts: this.posts,
             friends: this.friends,
-            pendingFriends: this.pendingFriends,
+            friendReqReceived: this.friendReqReceived,
+            friendReqSent: this.friendReqSent
         },
         process.env.JWT_SECRET
     );
@@ -67,7 +71,8 @@ const validateUser = (user) => {
         image: Joi.string(),
         posts: Joi.array(),
         friends: Joi.array(),
-        pendingFriends: Joi.array(),
+        friendReqReceived: Joi.array(),
+        friendReqSent: Joi.array()
     });
 
     return schema.validate(user);
