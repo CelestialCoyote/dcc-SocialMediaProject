@@ -190,6 +190,48 @@ router.put("/:userID/acceptFriendRequest/:friendID", [auth], async (req, res) =>
     }
 });
 
+// PUT: Decline friend request from friendReqReceived array.
+// Remove current user from requestor's friendReqSent array,
+// and remove requestor from current user's friendReqReceived array.
+router.put("/:userID/declineFriendRequest/:friendID", [auth], async (req, res) => {
+    try {
+        let friendToDecline = await User.findById(req.params.friendID);
+        if (!friendToDecline)
+            return res
+                .status(400)
+                .send(`Friend with ObjectId ${req.params.friendID} does not exist.`);
+
+        let user = await User.findById(req.params.userID);
+        if (!user)
+            return res
+                .status(400)
+                .send(`User with ObjectId ${req.params.userID} does not exist.`);
+
+        if (user.friends.includes(friendToDecline._id))
+            return res
+                .status(400)
+                .send(`User with ObjectId ${req.params.friendID} already a friend.`);
+
+        user.friendReqReceived.splice(user.friendReqReceived.indexOf(friendToDecline._id), 1);
+        friendToDecline.friendReqSent.splice(friendToDecline.friendReqSent.indexOf(user._id), 1);
+
+        await user.save();
+        await friendToDecline.save();
+
+        const token = user.generateAuthToken(); // Add to any route where user should be updated
+
+        return res
+            .status(200)
+            .header("x-auth-token", token)
+            .header("access-control-expose-headers", "x-auth-token")
+            .send([user, friendToDecline]);
+    } catch (ex) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${ex}`);
+    }
+});
+
 // PUT to remove a friend from a user's friends array.
 router.put("/:userID/friendToRemove/:friendID", [auth], async (req, res) => {
     try {

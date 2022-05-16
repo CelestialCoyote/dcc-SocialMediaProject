@@ -67,7 +67,7 @@ const FriendsPage = () => {
             <div className="friendsCardContainer">
                 <h2>Friend Requests Received</h2>
                 <FriendReqRecMapper
-                    friendReqReceived={friendReqReceived} setFriendRequests={setFriendReqReceived}
+                    friendReqReceived={friendReqReceived} setFriendReqReceived={setFriendReqReceived}
                     friends={friends} setFriends={setFriends}
                 />
             </div>

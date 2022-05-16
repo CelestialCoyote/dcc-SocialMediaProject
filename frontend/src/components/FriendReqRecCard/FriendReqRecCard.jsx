@@ -24,7 +24,7 @@ const FriendReqRecCard = (props) => {
 
     const handleDeclineFriendRequest = async () => {
         let friendReq = await axios
-            .put(`${baseUrl}friends/${user._id}/removePendingFriend/${props.friendRequest._id}`, user._id,
+            .put(`${baseUrl}friends/${user._id}/declineFriendRequest/${props.friendRequest._id}`, user._id,
                 { headers: { "x-auth-token": decodedUser } });
 
         //console.log('New friend data: \n', friendReq.data);
