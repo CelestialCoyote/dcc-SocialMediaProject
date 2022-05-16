@@ -3,7 +3,7 @@ const multer = require("multer");
 const uuid = require("uuid");
 
 // define file types to be handled for images
-const MINE_TYPE_MAP = {
+const MIME_TYPE_MAP = {
   "image/png": "png",
   "image/jpeg": "jpeg",
   "image/jpg": "jpg",
@@ -24,18 +24,19 @@ const fileUpload = multer({
     // the types of files being stored inside
     filename: (req, file, callback) => {
       //   file extensions
-      const ext = MINE_TYPE_MAP[file.mimetype];
+      const ext = MIME_TYPE_MAP[file.mimetype];
       // error handling
       callback(null, uuid.v1() + "." + ext);
     },
-    //   a way to handle improper file uploading
-    filefilter: (req, file, callback) => {
-      const isValid = !MINE_TYPE_MAP[file.mimetype];
-      // checking if the filetype is invalid.
-      let error = isValid ? null : new Error("Invalid mime type!");
-      callback(error, isValid);
-    },
   }),
+
+  //   a way to handle improper file uploading
+  filefilter: (req, file, callback) => {
+    const isValid = !!MIME_TYPE_MAP[file.mimetype];
+    // checking if the filetype is invalid.
+    let error = isValid ? null : new Error("Invalid mime type!");
+    callback(error, isValid);
+  },
 });
 
 module.exports = fileUpload;

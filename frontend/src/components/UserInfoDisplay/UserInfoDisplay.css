@@ -1,0 +1,16 @@
+#userInfoDiv{
+    border: 1px solid orange;
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+}
+
+#userInfo{
+    border: 1px solid purple;
+}
+
+.profile_pic{
+    height: 25rem;
+    width: 25rem;
+
+}
