@@ -68,7 +68,7 @@ const FriendsPage = () => {
                 <h2>Friend Requests Received</h2>
                 <FriendReqRecMapper
                     friendReqReceived={friendReqReceived} setFriendReqReceived={setFriendReqReceived}
-                    friends={friends} setFriends={setFriends}
+                    setFriends={setFriends} setAllUsers
                 />
             </div>
 
