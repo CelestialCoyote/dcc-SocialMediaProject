@@ -7,7 +7,7 @@ const { Post, validatePost } = require("../models/post");
 const auth = require("../middleware/auth");
 
 
-//GET all posts from friends
+// GET all posts from friends
 router.get("/:userID/friendsPosts", auth, async (req, res) => {
     try {
         let user = await User.findById(req.params.userID);
@@ -32,8 +32,8 @@ router.get("/:userID/friendsPosts", auth, async (req, res) => {
     }
 });
 
-// GET a single Post by userID and postID.
-router.get("/:userID/getSinglePost/:postID", auth, async (req, res) => {
+// GET all posts from one friend by friendID
+router.get("/:userID/allPostsFromFriend/:friendID", auth, async (req, res) => {
     try {
         let user = await User.findById(req.params.userID);
         if (!user)
@@ -41,15 +41,18 @@ router.get("/:userID/getSinglePost/:postID", auth, async (req, res) => {
                 .status(400)
                 .send(`User with id ${req.params.userID} does not exist!`);
 
-        let post = user.posts.id(req.params.postID);
-        if (!post)
+        // let friend = await User.find({ _id: { $in: user.friends } });
+
+        let friend = await User.findById(req.params.friendID);
+        if (!friend)
             return res
                 .status(400)
-                .send(`Post with Objectid ${req.params.postID} does not exist.`);
+                .send(`Friend with id ${req.params.friendID} does not exist!`);
 
         return res
             .status(200)
-            .send(post);
+            .send(friend.posts);
+
     } catch (error) {
         return res
             .status(500)
