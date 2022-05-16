@@ -53,7 +53,9 @@ const FriendsPage = () => {
             </div>
             <div className="friendsCardContainer">
                 <h2>Pending Friends</h2>
-                <PendingFriendMapper pendingFriends={pendingFriends} />
+                <PendingFriendMapper
+                    pendingFriends={pendingFriends} setPendingFriends={setPendingFriends}
+                    friends={friends} setFriends={setFriends} />
             </div>
         </div>
 

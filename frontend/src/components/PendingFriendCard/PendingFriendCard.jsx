@@ -12,22 +12,21 @@ const PendingFriendCard = (props) => {
     let imagePath = `http://localhost:3011/${props.pendingFriend.image}`;
 
     const handleAcceptFriendRequest = async () => {
+        let newFriend = await axios
+            .put(`${baseUrl}friends/${user._id}/friendToAdd/${props.pendingFriend._id}`, user._id,
+                { headers: { "x-auth-token": decodedUser } });
 
+        console.log('New friend data: \n', newFriend.data);
+        props.setFriends(newFriend.data.friends);
     }
 
     const handleDeclineFriendRequest = async () => {
-        console.log('Current user: ', user.name);
-        console.log('Current user _id: ', user._id);
-        console.log('Pending friend: ', props.pendingFriend.name);
-        console.log('Pending friend _id: ', props.pendingFriend._id);
-
         let newFriend = await axios
             .put(`${baseUrl}friends/${user._id}/removePendingFriend/${props.pendingFriend._id}`, user._id,
                 { headers: { "x-auth-token": decodedUser } });
 
         console.log('New friend data: \n', newFriend.data);
-        //props.setPendingFriends(newFriend.data.pendingFriends);
-
+        props.setPendingFriends(newFriend.data.pendingFriends);
     }
 
     return (

@@ -11,7 +11,9 @@ const PendingFriendMapper = (props) => {
             <ul className="radiumUL">
                 {props.pendingFriends && props.pendingFriends.map(pendingFriend =>
                     <li key={pendingFriend._id}>
-                        <PendingFriendCard pendingFriend={pendingFriend} />
+                        <PendingFriendCard
+                            pendingFriend={pendingFriend} setPendingFriends={props.setPendingFriends}
+                            setFriends={props.setFriends} />
                     </li>)}
             </ul>
 

@@ -232,9 +232,11 @@ router.put("/:userID/removePendingFriend/:friendID", [auth], async (req, res) =>
                 .status(400)
                 .send(`User with ObjectId ${req.params.userID} does not exist.`);
 
-        const newArray = user.friends.filter(friend => friend != friendToRemove);
-        user.pendingFriends = newArray;
+        user.pendingFriends.splice(user.pendingFriends.indexOf(friendToRemove._id), 1);
+        friendToRemove.pendingFriends.splice(friendToRemove.pendingFriends.indexOf(user._id), 1);
+
         await user.save();
+        await friendToRemove.save();
 
         const token = user.generateAuthToken();
 
