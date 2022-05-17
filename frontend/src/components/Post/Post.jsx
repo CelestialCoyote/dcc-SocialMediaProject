@@ -1,11 +1,9 @@
-import AuthContext from "../../context/AuthContext";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import './Post.css';
+import LikeButton from "../LikeButton/LikeButton";
 
 
 const Post = (props) => {
-
-    const { user } = useContext(AuthContext);
 
     useEffect(() => {
 
@@ -23,17 +21,13 @@ const Post = (props) => {
 
                 <div className="flex-row">
 
-                    {props.friendsList ? <button>Like It</button> : null}
-
-
-                    {/*{user.posts && user.posts
-                        .filter(post => Object.values(post).includes(props.post._id))
-                        //.map(post => Object.values(post).includes(props.post._id) ? null : <button key={post._id}>Like It!</button>)}
-                        .map(post => Object.values(post).includes(props.post._id) ? null : <button key={post._id}>Like It!</button>)}*/}
                     <p>Likes: {props.post.likes}</p>
+
+                    {props.friendsList ? <LikeButton postID={props.post._id} post={props.post} /> : null}
+
                 </div>
+
                 {!props.friendsList ? <button>Edit</button> : null}
-                {/*{user.posts && user.posts.map(post => Object.values(post).includes(props.post._id) ? <button key={post._id}>Edit</button> : null)}*/}
 
             </div>
 
@@ -41,5 +35,12 @@ const Post = (props) => {
 
     );
 }
+
+{/*{user.posts && user.posts.map(post => Object.values(post).includes(props.post._id) ? <button key={post._id}>Edit</button> : null)}*/ }
+
+{/*{user.posts && user.posts
+    .filter(post => Object.values(post).includes(props.post._id))
+    //.map(post => Object.values(post).includes(props.post._id) ? null : <button key={post._id}>Like It!</button>)}
+    .map(post => Object.values(post).includes(props.post._id) ? null : <button key={post._id}>Like It!</button>)}*/}
 
 export default Post;
