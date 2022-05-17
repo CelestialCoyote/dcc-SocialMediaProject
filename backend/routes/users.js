@@ -111,9 +111,13 @@ router.get("/:userID/getOneUser", [auth], async (req, res) => {
                 .send(`User with id ${req.params.userID} does not exist!`);
         await User.findById();
 
-        return res.status(200).send(user);
+        return res
+            .status(200)
+            .send(user);
     } catch (ex) {
-        return res.status(500).send(`Internal Server Error: ${ex}`);
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${ex}`);
     }
 });
 
@@ -122,7 +126,9 @@ router.put("/:userID/updateUser", [auth, fileUpload.single("image")], async (req
         try {
             const { error } = validateUser(req.body);
             if (error)
-                return res.status(400).send(`Body for user not valid! ${error}`);
+                return res
+                    .status(400)
+                    .send(`Body for user not valid! ${error}`);
 
             let user = await User.findByIdAndUpdate(
                 req.params.userID,
@@ -138,11 +144,13 @@ router.put("/:userID/updateUser", [auth, fileUpload.single("image")], async (req
 
             return res
                 .status(200)
-                .send(user)
                 .header("x-auth-token", token)
-                .header("access-control-expose-headers", "x-auth-token");
+                .header("access-control-expose-headers", "x-auth-token")
+                .send(user);
         } catch (ex) {
-            return res.status(500).send(`Internal Server Error: ${ex}`);
+            return res
+                .status(500)
+                .send(`Internal Server Error: ${ex}`);
         }
     }
 );
@@ -183,7 +191,7 @@ router.delete("/:userID", [auth, admin], async (req, res) => {
                 .send(`User with id ${req.params.userID} does not exist!`);
         await user.remove();
 
-        const token = user.generateAuthToken(); // Add to any route where user should be updated
+        const token = user.generateAuthToken();
 
         return res
             .status(200)

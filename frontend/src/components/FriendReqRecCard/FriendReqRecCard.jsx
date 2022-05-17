@@ -12,8 +12,6 @@ const FriendReqRecCard = (props) => {
     let imagePath = `http://localhost:3011/${props.friendRequest.image}`;
 
     const handleAcceptFriendRequest = async () => {
-        console.log('Current user id: \n', user._id);
-        console.log('New friend id: \n', props.friendRequest._id);
         let friendReq = await axios
             .put(`${baseUrl}friends/${user._id}/acceptFriendRequest/${props.friendRequest._id}`, user._id,
                 { headers: { "x-auth-token": decodedUser } });
@@ -26,7 +24,6 @@ const FriendReqRecCard = (props) => {
             .put(`${baseUrl}friends/${user._id}/declineFriendRequest/${props.friendRequest._id}`, user._id,
                 { headers: { "x-auth-token": decodedUser } });
 
-        //console.log('New friend data: \n', friendReq.data);
         props.setFriendReqRecieved(friendReq.data.friendReqReceived);
     }
 

@@ -12,7 +12,11 @@ const FriendCard = (props) => {
     let imagePath = `http://localhost:3011/${props.friend.image}`;
 
     const handleDeleteFriend = async () => {
-        
+        let friendToDelete = await axios
+            .put(`${baseUrl}friends/${user._id}/friendToDelete/${props.friend._id}`, user._id,
+                { headers: { "x-auth-token": decodedUser } });
+
+        props.setFriends(friendToDelete.data.friends);
     }
 
     return (
