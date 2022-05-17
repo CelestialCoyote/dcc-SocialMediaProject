@@ -59,7 +59,7 @@ const FriendsPage = () => {
 
             <div className="friendsCardContainer">
                 <h2>Friends</h2>
-                <FriendMapper friends={friends} />
+                <FriendMapper friends={friends} setFriends={setFriends} />
             </div>
 
             <div className="friendsCardContainer">
@@ -77,25 +77,6 @@ const FriendsPage = () => {
                 />
             </div>
 
-
-            {/*{user.friendRequestsReceived &&
-                <div className="friendsCardContainer">
-                    <h2>Friend Requests Received</h2>
-                    <FriendReqRecMapper
-                        friendReqReceived={friendReqReceived} setFriendRequests={setFriendReqReceived}
-                        friends={friends} setFriends={setFriends}
-                    />
-                </div>
-            }
-            {user.friendRequestsSent &&
-                <div className="friendsCardContainer">
-                    <h2>Friend Requests Sent</h2>
-                    <FriendReqSentMapper
-                        friendReqSent={friendReqSent} setFriendRequests={setFriendReqSent}
-                        friends={friends} setFriends={setFriends}
-                    />
-                </div>
-            }*/}
         </div>
 
     );

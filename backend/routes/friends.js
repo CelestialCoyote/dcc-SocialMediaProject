@@ -233,7 +233,7 @@ router.put("/:userID/declineFriendRequest/:friendID", [auth], async (req, res) =
 });
 
 // PUT to remove a friend from a user's friends array.
-router.put("/:userID/friendToRemove/:friendID", [auth], async (req, res) => {
+router.put("/:userID/friendToDelete/:friendID", [auth], async (req, res) => {
     try {
         let friendToRemove = await User.findById(req.params.friendID);
         if (!friendToRemove)
