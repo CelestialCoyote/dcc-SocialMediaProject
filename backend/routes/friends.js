@@ -133,7 +133,7 @@ router.put("/:userID/sendFriendRequest/:friendID", [auth], async (req, res) => {
         await user.save();
         await friendRequest.save();
 
-        const token = user.generateAuthToken(); // Add to any route where user should be updated
+        const token = user.generateAuthToken();
 
         return res
             .status(200)
@@ -176,7 +176,7 @@ router.put("/:userID/acceptFriendRequest/:friendID", [auth], async (req, res) =>
         await user.save();
         await friendToAdd.save();
 
-        const token = user.generateAuthToken(); // Add to any route where user should be updated
+        const token = user.generateAuthToken();
 
         return res
             .status(200)
@@ -218,7 +218,7 @@ router.put("/:userID/declineFriendRequest/:friendID", [auth], async (req, res) =
         await user.save();
         await friendToDecline.save();
 
-        const token = user.generateAuthToken(); // Add to any route where user should be updated
+        const token = user.generateAuthToken();
 
         return res
             .status(200)
