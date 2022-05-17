@@ -18,7 +18,6 @@ const FriendReqRecCard = (props) => {
             .put(`${baseUrl}friends/${user._id}/acceptFriendRequest/${props.friendRequest._id}`, user._id,
                 { headers: { "x-auth-token": decodedUser } });
 
-        //console.log('New friend data: \n', friendReq.data);
         props.setFriends(friendReq.data.friends);
     }
 

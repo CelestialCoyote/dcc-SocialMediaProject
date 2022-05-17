@@ -3,7 +3,7 @@ import './FriendReqSentCard.css';
 
 const FriendReqSentCard = (props) => {
 
-    let imagePath = `http://localhost:3011/${props.pendingFriend.image}`;
+    let imagePath = `http://localhost:3011/${props.friendRequest.image}`;
 
     return (
 

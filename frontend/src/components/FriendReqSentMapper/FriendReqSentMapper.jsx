@@ -1,4 +1,4 @@
-import FriendReqSentCard from '../FriendReqRecCard/FriendReqRecCard';
+import FriendReqSentCard from '../FriendReqSentCard/FriendReqSentCard';
 import './FriendReqSentMapper.css';
 
 

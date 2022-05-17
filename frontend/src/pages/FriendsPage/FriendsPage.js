@@ -11,13 +11,17 @@ import FriendReqSentMapper from "../../components/FriendReqSentMapper/FriendReqS
 
 const FriendsPage = () => {
 
+    const { user } = useContext(AuthContext);
     const [allUsers, setAllUsers] = useState([]);
     const [friends, setFriends] = useState(null);
     const [friendReqReceived, setFriendReqReceived] = useState(null);
     const [friendReqSent, setFriendReqSent] = useState(null);
-    const { user } = useContext(AuthContext);
     const decodedUser = localStorage.getItem("token");
     const baseUrl = 'http://localhost:3011/api/';
+
+    useEffect(() => {
+        handleGetAllUsers();
+    }, [ friends ]);
 
     const handleGetAllUsers = async () => {
         let allUsers = await axios
@@ -36,20 +40,14 @@ const FriendsPage = () => {
             .get(`${baseUrl}friends/${user._id}/allFriendRequestsReceived/`,
                 { headers: { "x-auth-token": decodedUser } });
 
-        //console.log(friendRequestsReceived.data);
         setFriendReqReceived(friendRequestsReceived.data);
 
         let friendRequestsSent = await axios
             .get(`${baseUrl}friends/${user._id}/allFriendRequestsSent/`,
                 { headers: { "x-auth-token": decodedUser } });
 
-        //console.log(friendRequestsSent.data);
         setFriendReqSent(friendRequestsSent.data);
     };
-
-    useEffect(() => {
-        handleGetAllUsers();
-    }, []);
 
     return (
 
@@ -68,7 +66,7 @@ const FriendsPage = () => {
                 <h2>Friend Requests Received</h2>
                 <FriendReqRecMapper
                     friendReqReceived={friendReqReceived} setFriendReqReceived={setFriendReqReceived}
-                    friends={friends} setFriends={setFriends}
+                    setFriends={setFriends} setAllUsers
                 />
             </div>
 
