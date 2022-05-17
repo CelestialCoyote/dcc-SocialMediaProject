@@ -1,4 +1,7 @@
-.PostTextArea{
-    width: 100px;
+input.PostTextArea {
+    width: 50rem;
+}
 
+label {
+    font-size: 2rem;
 }

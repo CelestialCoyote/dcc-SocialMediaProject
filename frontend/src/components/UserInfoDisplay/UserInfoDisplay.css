@@ -1,12 +1,13 @@
 #userInfoDiv{
-    border: 1px solid orange;
+    /* border: 1px solid orange; */
     display:flex;
     flex-direction:row;
     justify-content: space-around;
 }
 
 #userInfo{
-    border: 1px solid purple;
+    border: 1px solid gray;
+    padding: 2em;
 }
 
 .profile_pic{
