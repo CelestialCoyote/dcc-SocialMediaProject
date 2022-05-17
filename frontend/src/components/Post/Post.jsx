@@ -11,15 +11,15 @@ const Post = (props) => {
 
     }, [props.post]);
 
-
     return (
 
         <div id="postContainer">
 
-            <p className="marginOne">{props.post.text}</p>
+            <p className="marginOne postText">{props.post.text}</p>
 
             <div className="flex-row marginOne">
-                <p>Date posted: {props.post.date}</p>
+
+                <p className="postText">Date posted: {props.post.date}</p>
 
                 <div className="flex-row">
 
