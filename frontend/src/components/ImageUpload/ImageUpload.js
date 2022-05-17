@@ -77,14 +77,14 @@ const ImageUpload = (props) => {
   return (
     <div id="imageUploadComponent">
       <form onSubmit={(event) => handleSubmitPhoto(event)}>
-        <label>Photo</label>
+        <label>Photo: </label>
         <input
           ref={filePickerRef}
           type="file"
           accept=".jpg,.png,.jpeg"
           onChange={(event) => pickedHandler(event)}
         />
-        <button type="submit">Submit button</button>
+        <button type="submit">Upload</button>
       </form>
     </div>
   );

@@ -1,9 +1,10 @@
 #requestSentCard {
-    border: 1px solid red;
+    border: 1px solid lavender;
     border-radius: 0.5em;
     display: flex;
     flex-direction: row;
     margin: 0.5em;
+    padding: 0.5rem;
     width: 50vh;
 }
 
@@ -16,7 +17,8 @@
 }
 
 #awaitingResponse {
-    border: 2px solid cyan;
+    background: cornflowerblue;
+    color: white;
     border-radius: 0.5em;
     font-size: 0.6em;
     padding: 0.5em;

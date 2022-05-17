@@ -11,15 +11,15 @@ const UserInfoDisplay = (props) => {
       />
       <div id="userInfo">
         <h2>
-          Name: <br></br> {props.user.name}
+          Name: {props.user.name}
         </h2>
         <h2>
-          email: <br></br> {props.user.email}
+          Email: {props.user.email}
         </h2>
         <h2>
-          admin: <br></br> {props.user.isadmin ? "Yes" : "No"}
+          Is Admin: {props.user.isadmin ? "Yes" : "No"}
         </h2>
-        <button> Edit information</button>
+        <button>Edit</button>
         <EditPhoto />
       </div>
     </div>

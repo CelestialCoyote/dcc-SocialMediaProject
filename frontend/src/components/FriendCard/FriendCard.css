@@ -1,5 +1,5 @@
 #friendCard {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     border-radius: 0.5em;
     display: flex;
     flex-direction: row;
@@ -16,7 +16,8 @@
 }
 
 #deleteFriend {
-    border: 2px solid crimson;
+    background: crimson;
+    color: white;
     border-radius: 0.5em;
     font-size: 0.6em;
     padding: 0.5em;

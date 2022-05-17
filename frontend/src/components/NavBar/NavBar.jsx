@@ -12,7 +12,7 @@ const Navbar = () => {
             <ul>
                 <li className="brand">
                     <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                        <b>RADIUM REACT</b>
+                        <b>RADIUM</b>react
                     </Link>
                 </li>
                 <li>
